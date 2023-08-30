@@ -6,7 +6,7 @@
 </script>
 
 <div class="code">
-	{@html highlight(code, languages[language])}
+	{@html highlight(code, languages[language], language)}
 </div>
 
 <svelte:head>
