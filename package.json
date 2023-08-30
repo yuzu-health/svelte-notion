@@ -1,6 +1,6 @@
 {
 	"name": "@yuzu-health/svelte-notion",
-	"version": "0.0.36",
+	"version": "0.0.37",
 	"scripts": {
 		"dev": "vite dev",
 		"rollup": "rollup -c",
@@ -51,6 +51,7 @@
 		"@sveltejs/adapter-auto": "^2.0.0",
 		"@sveltejs/kit": "^1.20.4",
 		"@sveltejs/package": "^2.0.0",
+		"@types/prismjs": "^1.26.0",
 		"autoprefixer": "^10.4.15",
 		"postcss": "^8.4.27",
 		"prettier": "^2.8.0",

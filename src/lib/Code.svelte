@@ -1,28 +1,23 @@
 <script lang="ts">
-  import { highlight, languages } from "prismjs";
+	import { highlight, languages } from 'prismjs';
 
-  export let code: string;
-  export let language = "";
+	export let code: string;
+	export let language = '';
 </script>
 
 <div class="code">
-  {@html highlight(code, languages[language])}
+	{@html highlight(code, languages[language])}
 </div>
 
 <svelte:head>
-  <link
-    href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.22.0/themes/prism.min.css"
-    rel="stylesheet"
-  />
+	<link
+		href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.22.0/themes/prism.min.css"
+		rel="stylesheet"
+	/>
 </svelte:head>
 
 <style>
-  .code {
-    /* white-space: pre-wrap; */
-    overflow-x: scroll;
-  }
-
-  :global(.token.operator) {
-    background: none !important;
-  }
+	:global(.token.operator) {
+		background: none !important;
+	}
 </style>
