@@ -104,14 +104,18 @@
 	</code>
 {:else if block.type === 'video'}
 	<Video {block} />
-{:else if ['toggle'].includes(block.type)}
-	<!-- <details>
-    <summary>
-      What is the meaning of life?
-      <span class="icon">👇</span>
-    </summary>
-    <p>42</p>
-  </details> -->
+{:else if block.type === 'toggle'}
+	<details>
+		<summary class="cursor-pointer">
+			{#each block[block.type].rich_text || [] as text, i (block.id + '-' + i)}
+				<Text {block} {prefix} {text} />
+			{/each}
+		</summary>
+
+		<div class="pl-4">
+			<Notion blocks={block.children} {pathname} {prefix} />
+		</div>
+	</details>
 {:else if block.type === 'child_page'}
 	<a href="{pathname}{block.id}">{block.child_page.title}</a>
 {:else if block.type === 'column_list'}
@@ -124,7 +128,7 @@
 	<!-- <pre>{JSON.stringify(block, null, 2)}</pre> -->
 {/if}
 
-{#if !['column_list'].includes(block.type) && block.children}
+{#if !['toggle', 'column_list'].includes(block.type) && block.children}
 	<div class="pl-4">
 		<Notion blocks={block.children} {pathname} {prefix} />
 	</div>
