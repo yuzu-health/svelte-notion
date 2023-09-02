@@ -109,5 +109,6 @@ type BlockValues = {
 		external?: { url: string };
 
 		children?: Block[];
+		is_toggleable?: boolean;
 	};
 };

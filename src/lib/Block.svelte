@@ -14,26 +14,27 @@
 {#if block.type === 'divider'}
 	<hr class="my-2" />
 {:else if 'heading_1' === block.type}
-	<h1 id={block.id} class="mb-2 mt-8">
+	<h1 id={block.id} class="mb-2 mt-8" class:inline-block={block[block.type].is_toggleable}>
 		{#each block[block.type].rich_text || [] as text, i (block.id + '-' + i)}
 			<Text {block} {prefix} {text} />
 		{/each}
 	</h1>
 {:else if 'heading_2' === block.type}
-	<h2 id={block.id} class="mb-2 mt-8">
+	<h2 id={block.id} class="mb-2 mt-8" class:inline-block={block[block.type].is_toggleable}>
 		{#each block[block.type].rich_text || [] as text, i (block.id + '-' + i)}
 			<Text {block} {prefix} {text} />
 		{/each}
 	</h2>
 {:else if 'heading_3' === block.type}
-	<h3 id={block.id} class="mb-2 mt-8">
+	<h3 id={block.id} class="mb-2 mt-8" class:inline-block={block[block.type].is_toggleable}>
 		{#each block[block.type].rich_text || [] as text, i (block.id + '-' + i)}
 			<Text {block} {prefix} {text} />
 		{/each}
 	</h3>
-{:else if ['callout', 'paragraph', 'quote', 'link_to_page'].includes(block.type)}
+{:else if ['callout', 'paragraph', 'quote', 'link_to_page', 'toggle'].includes(block.type)}
 	<p
-		class=" break-word my-1
+		class:inline-block={block[block.type].is_toggleable}
+		class="break-word my-1
       {block.type === 'quote' ? 'border-primary border-l-4 pl-4' : ''}
       {block.type === 'callout' ? 'bg-primary mb-1 bg-opacity-10 p-4' : ''}
     "
@@ -104,18 +105,6 @@
 	</code>
 {:else if block.type === 'video'}
 	<Video {block} />
-{:else if block.type === 'toggle'}
-	<details>
-		<summary class="cursor-pointer">
-			{#each block[block.type].rich_text || [] as text, i (block.id + '-' + i)}
-				<Text {block} {prefix} {text} />
-			{/each}
-		</summary>
-
-		<div class="pl-4">
-			<Notion blocks={block.children} {pathname} {prefix} />
-		</div>
-	</details>
 {:else if block.type === 'child_page'}
 	<a href="{pathname}{block.id}">{block.child_page.title}</a>
 {:else if block.type === 'column_list'}
@@ -128,7 +117,7 @@
 	<!-- <pre>{JSON.stringify(block, null, 2)}</pre> -->
 {/if}
 
-{#if !['toggle', 'column_list'].includes(block.type) && block.children}
+{#if !['toggle', 'column_list'].includes(block.type) && !block[block.type].is_toggleable && block.children}
 	<div class="pl-4">
 		<Notion blocks={block.children} {pathname} {prefix} />
 	</div>
