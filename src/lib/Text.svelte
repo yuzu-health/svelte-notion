@@ -1,10 +1,8 @@
 <script lang="ts">
-	const constructPath = (part1: string, part2: string) => {
-		const parts = [part1, part2];
-		const url = parts.join('');
-		if (url.startsWith('http') || url.startsWith('mailto')) return url;
+	const constructPath = (prefix: string, link: string) => {
+		if (link.startsWith('http') || link.startsWith('mailto')) return link;
 
-		return parts
+		return [prefix, link]
 			.map((part) => part.replace(/^\/+/, '').replace(/\/+$/, ''))
 			.filter(Boolean)
 			.reduce((acc, part) => acc + part + '/', '/');
