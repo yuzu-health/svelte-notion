@@ -9,6 +9,7 @@
 	export let pathname = '/';
 	export let resetCount = false;
 	export let prefix = '';
+	export let classBgBlock = '';
 </script>
 
 {#if block.type === 'divider'}
@@ -36,7 +37,7 @@
 		class:inline-block={block[block.type].is_toggleable}
 		class="break-word my-1
       {block.type === 'quote' ? 'border-primary border-l-4 pl-4' : ''}
-      {block.type === 'callout' ? 'bg-primary mb-1 bg-opacity-10 p-4' : ''}
+      {block.type === 'callout' ? `bg-gray-50 mb-1 p-4 ${classBgBlock}` : ''}
     "
 	>
 		{#if block?.[block.type]?.icon?.emoji}
@@ -96,7 +97,7 @@
 {:else if block.type === 'code'}
 	<code
 		style="tab-size: 2;"
-		class="bg-primary mb-1 block overflow-scroll whitespace-pre bg-opacity-5 p-4 text-sm w-0 min-w-full"
+		class="bg-gray-50 mb-1 block overflow-scroll whitespace-pre p-4 text-sm w-0 min-w-full {classBgBlock}"
 	>
 		{#each block[block.type].rich_text || [] as text, i (block.id + '-' + i)}
 			<!-- <Text {text} {block} /> -->

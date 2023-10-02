@@ -1,6 +1,8 @@
 <script lang="ts">
-	import { highlight, languages } from 'prismjs';
+	import prism from 'prismjs';
 	import 'prismjs/components/prism-typescript';
+
+	const { highlight, languages } = prism;
 
 	export let code: string;
 	export let language = '';

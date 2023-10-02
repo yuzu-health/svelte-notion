@@ -8,6 +8,7 @@
 	export let blocks: BlockType[] = [];
 	export let pathname = '/';
 	export let prefix = '';
+	export let classBgBlock = '';
 </script>
 
 <div class="svelte-notion whitespace-pre-line leading-relaxed {clazz}">
@@ -16,11 +17,23 @@
 			<TableContents {blocks} />
 		{:else if block}
 			{#if !block[block.type].is_toggleable && block.type !== 'toggle'}
-				<Block {block} {pathname} {prefix} resetCount={blocks?.[i - 1]?.type !== block.type} />
+				<Block
+					{classBgBlock}
+					{block}
+					{pathname}
+					{prefix}
+					resetCount={blocks?.[i - 1]?.type !== block.type}
+				/>
 			{:else}
 				<details>
 					<summary class="cursor-pointer">
-						<Block {block} {pathname} {prefix} resetCount={blocks?.[i - 1]?.type !== block.type} />
+						<Block
+							{classBgBlock}
+							{block}
+							{pathname}
+							{prefix}
+							resetCount={blocks?.[i - 1]?.type !== block.type}
+						/>
 					</summary>
 
 					<div class="pl-4">
