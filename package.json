@@ -1,6 +1,6 @@
 {
 	"name": "@yuzu-health/svelte-notion",
-	"version": "0.0.52",
+	"version": "0.0.61",
 	"scripts": {
 		"dev": "vite dev",
 		"rollup": "rollup -c",
@@ -44,7 +44,8 @@
 	},
 	"dependencies": {
 		"@notionhq/client": "^2.2.11",
-		"prismjs": "^1.29.0"
+		"prismjs": "^1.29.0",
+		"tailwind-merge": "^1.14.0"
 	},
 	"devDependencies": {
 		"@rollup/plugin-commonjs": "^25.0.4",

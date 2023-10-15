@@ -1,51 +1,60 @@
 <script lang="ts">
 	import Block from './Block.svelte';
-	import TableContents from './TableContents.svelte';
 	import type { Block as BlockType } from './types.js';
 
-	let clazz = '';
+	export let clazz: string | ((type: string) => string) = '';
 	export { clazz as class };
+	export let blockClass: string | ((type: string) => string) = '';
 	export let blocks: BlockType[] = [];
+	export let highlightClass = '';
 	export let pathname = '/';
 	export let prefix = '';
-	export let classBgBlock = '';
+
+	$: className = typeof clazz === 'function' ? clazz : (_t: string) => clazz as string;
+
+	$: props = { class: blockClass, pathname, prefix, highlightClass, blocks };
 </script>
 
-<div class="svelte-notion whitespace-pre-line leading-relaxed {clazz}">
-	{#each blocks || [] as block, i (block.id)}
-		{#if block?.type === 'table_of_contents'}
-			<TableContents {blocks} />
-		{:else if block}
-			{#if !block[block.type].is_toggleable && block.type !== 'toggle'}
-				<Block
-					{classBgBlock}
-					{block}
-					{pathname}
-					{prefix}
-					resetCount={blocks?.[i - 1]?.type !== block.type}
-				/>
-			{:else}
-				<details>
-					<summary class="cursor-pointer">
-						<Block
-							{classBgBlock}
-							{block}
-							{pathname}
-							{prefix}
-							resetCount={blocks?.[i - 1]?.type !== block.type}
-						/>
-					</summary>
+{#each blocks || [] as block, i (block.id)}
+	{#if !block[block.type].is_toggleable && block.type !== 'toggle'}
+		<div
+			class="svelte-notion {className(block.type)}"
+			class:count={block.type === 'numbered_list_item'}
+			class:reset-count={blocks?.[i - 1]?.type !== block.type}
+		>
+			<Block {...props} {block} />
+		</div>
+	{:else}
+		<details class={className(block.type)}>
+			<summary class="cursor-pointer svelte-notion">
+				<Block {...props} {block} />
+			</summary>
 
-					<div class="pl-4">
-						<svelte:self blocks={block.children} {pathname} {prefix} />
-					</div>
-				</details>
-			{/if}
-		{/if}
-	{/each}
-</div>
+			<svelte:self
+				class={clazz}
+				{blockClass}
+				blocks={block.children}
+				{highlightClass}
+				{pathname}
+				{prefix}
+			/>
+		</details>
+	{/if}
+{/each}
 
 <style lang="postcss">
 	@tailwind components;
 	@tailwind utilities;
+
+	.svelte-notion {
+		@apply whitespace-pre-line leading-relaxed;
+	}
+
+	.reset-count {
+		counter-reset: my-counter;
+	}
+
+	.count {
+		counter-increment: my-counter;
+	}
 </style>

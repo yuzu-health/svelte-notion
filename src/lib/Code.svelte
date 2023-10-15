@@ -1,20 +1,37 @@
 <script lang="ts">
+	import type { Block } from './types.js';
+	import { twMerge } from 'tailwind-merge';
 	import prism from 'prismjs';
 	import 'prismjs/components/prism-typescript';
 
 	const { highlight, languages } = prism;
 
-	export let code: string;
-	export let language = '';
+	export let block: Block;
+	let clazz = '';
+	export { clazz as class };
+
+	$: texts = block[block.type].rich_text || [];
+	$: language = block[block.type].language || '';
 </script>
 
-<div class="code">
-	{#if languages[language]}
-		{@html highlight(code, languages[language], language)}
-	{:else}
-		{code}
-	{/if}
-</div>
+<code
+	id={block.id}
+	style:tab-size="2"
+	class={twMerge(
+		'bg-gray-50 mb-1 block overflow-scroll whitespace-pre p-4 text-sm w-0 min-w-full',
+		clazz
+	)}
+>
+	{#each texts as text}
+		<div>
+			{#if languages[language]}
+				{@html highlight(text.text?.content, languages[language], language)}
+			{:else}
+				{text.text?.content}
+			{/if}
+		</div>
+	{/each}
+</code>
 
 <svelte:head>
 	<link

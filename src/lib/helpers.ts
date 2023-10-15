@@ -87,7 +87,7 @@ export class Client {
 
 	static getTextFromBlock = (block: Block): string =>
 		(block[block.type]?.rich_text
-			?.map((fragment) => fragment.plain_text)
+			?.map(({ plain_text }) => plain_text)
 			?.join('')
 			.replaceAll('\n', ' ') || '') +
 		' ' +
