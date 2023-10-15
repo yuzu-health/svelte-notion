@@ -1,8 +1,6 @@
 <script lang="ts">
-	import type { TextRichTextItemResponse } from '@notionhq/client/build/src/api-endpoints.js';
 	import type { Block } from './types.js';
 
-	export let texts: TextRichTextItemResponse[] = [];
 	export let prefix = '';
 	export let block: Block;
 
@@ -13,6 +11,8 @@
 			.filter(Boolean)
 			.reduce((acc, part) => acc + part + '/', '/');
 	};
+
+	$: texts = block[block.type].rich_text || [];
 </script>
 
 {#each texts as text, i (block.id + '-' + i)}
@@ -20,12 +20,13 @@
 		this={text.href ? 'a' : 'span'}
 		class={text.annotations.code ? 'bg-primary -my-1 bg-opacity-5 p-1' : ''}
 		class:font-medium={text.annotations.bold}
-		class:font-semibold={['heading_1', 'heading_2', 'heading_3'].includes(block.type)}
 		class:italic={text.annotations.italic}
-		class:text-2xl={block.type === 'heading_1'}
-		class:text-lg={block.type === 'heading_3'}
-		class:text-xl={block.type === 'heading_2'}
 		class:underline={text.annotations.underline}
+		style:color={text.annotations.color === 'default'
+			? text.annotations.code
+				? 'crimson'
+				: ''
+			: text.annotations.color}
 		href={text.href
 			? constructPath(
 					prefix,

@@ -11,5 +11,5 @@
 
 <label id={block.id} class={twMerge('pointer-events-none block', clazz)}>
 	<input checked={block.to_do.checked} type="checkbox" />
-	<Text {block} {prefix} texts={block.to_do.rich_text || []} />
+	<Text {block} {prefix} />
 </label>

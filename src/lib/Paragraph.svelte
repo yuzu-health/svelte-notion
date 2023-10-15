@@ -29,6 +29,6 @@
 	{#if block[block.type]?.rich_text?.length === 0}
 		<br />
 	{:else}
-		<Text {block} {prefix} texts={block[block.type].rich_text || []} />
+		<Text {block} {prefix} />
 	{/if}
 </p>

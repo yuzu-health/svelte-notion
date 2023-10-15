@@ -2,15 +2,15 @@
 	import Block from './Block.svelte';
 	import type { Block as BlockType } from './types.js';
 
-	export let clazz: string | ((type: string) => string) = '';
+	export let clazz: string | ((block: BlockType) => string) = '';
 	export { clazz as class };
-	export let blockClass: string | ((type: string) => string) = '';
+	export let blockClass: string | ((block: BlockType) => string) = '';
 	export let blocks: BlockType[] = [];
 	export let highlightClass = '';
 	export let pathname = '/';
 	export let prefix = '';
 
-	$: className = typeof clazz === 'function' ? clazz : (_t: string) => clazz as string;
+	$: className = typeof clazz === 'function' ? clazz : (_b: BlockType) => clazz as string;
 
 	$: props = { class: blockClass, pathname, prefix, highlightClass, blocks };
 </script>
@@ -18,14 +18,14 @@
 {#each blocks || [] as block, i (block.id)}
 	{#if !block[block.type].is_toggleable && block.type !== 'toggle'}
 		<div
-			class="svelte-notion {className(block.type)}"
+			class="svelte-notion {className(block)}"
 			class:count={block.type === 'numbered_list_item'}
 			class:reset-count={blocks?.[i - 1]?.type !== block.type}
 		>
 			<Block {...props} {block} />
 		</div>
 	{:else}
-		<details class={className(block.type)}>
+		<details class={className(block)}>
 			<summary class="cursor-pointer svelte-notion">
 				<Block {...props} {block} />
 			</summary>

@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { twMerge } from 'tailwind-merge';
+
 	import Notion from './Notion.svelte';
 	import Text from './Text.svelte';
 	import Video from './Video.svelte';
@@ -20,17 +21,12 @@
 	export let pathname = '/';
 	export let prefix = '';
 	export let highlightClass = '';
-	let className: string | ((type: string) => string) = '';
+	let className: string | ((block: Block) => string) = '';
 	export { className as class };
 
-	$: clazz = typeof className === 'function' ? className(block.type) : className;
+	$: clazz = typeof className === 'function' ? className(block) : className;
 
-	$: props = {
-		class: clazz,
-		block,
-		prefix,
-		highlightClass
-	};
+	$: props = { class: clazz, block, prefix, highlightClass };
 </script>
 
 {#if block?.type === 'table_of_contents'}
@@ -63,12 +59,12 @@
 
 {#if block[block.type].caption}
 	<div class="text-primary mt-2 text-xs text-opacity-50">
-		<Text {block} {prefix} texts={block[block.type].caption || []} />
+		<Text {block} {prefix} />
 	</div>
 {/if}
 
 {#if !['toggle', 'column_list'].includes(block.type) && !block[block.type].is_toggleable && block.children}
-	<div class="pl-8">
+	<div class={twMerge('pl-8', clazz)}>
 		<Notion blocks={block.children} {pathname} {prefix} {highlightClass} />
 	</div>
 {/if}

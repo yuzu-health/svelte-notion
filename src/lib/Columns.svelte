@@ -9,6 +9,8 @@
 
 <div id={block.id} class={twMerge('mb-4 grid grid-flow-col gap-2', clazz)}>
 	{#each block.children || [] as column (column.id)}
-		<slot {column} />
+		<div>
+			<slot {column} />
+		</div>
 	{/each}
 </div>

@@ -20,7 +20,7 @@
 		<span class="counter absolute left-0">.</span>
 	{/if}
 
-	<Text {block} {prefix} texts={block[block.type].rich_text || []} />
+	<Text {block} {prefix} />
 </div>
 
 <style>
