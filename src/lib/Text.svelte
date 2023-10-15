@@ -1,8 +1,10 @@
 <script lang="ts">
+	import type { TextRichTextItemResponse } from '@notionhq/client/build/src/api-endpoints';
 	import type { Block } from './types.js';
 
 	export let prefix = '';
 	export let block: Block;
+	export let rich_text: undefined | TextRichTextItemResponse[] = undefined;
 
 	const constructPath = (prefix: string, link: string) => {
 		if (link.startsWith('http') || link.startsWith('mailto')) return link;
@@ -12,7 +14,7 @@
 			.reduce((acc, part) => acc + part + '/', '/');
 	};
 
-	$: texts = block[block.type].rich_text || [];
+	$: texts = rich_text || block[block.type].rich_text || [];
 </script>
 
 {#each texts as text, i (block.id + '-' + i)}
