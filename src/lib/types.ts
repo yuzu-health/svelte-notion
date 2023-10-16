@@ -60,9 +60,31 @@ export type PageProperty = {
 
 export type Block = BlockProperties & BlockValues;
 
+type BlockTypes =
+	| 'table_of_contents'
+	| 'divider'
+	| 'paragraph'
+	| 'heading_1'
+	| 'heading_2'
+	| 'heading_3'
+	| 'callout'
+	| 'paragraph'
+	| 'quote'
+	| 'link_to_page'
+	| 'toggle'
+	| 'bulleted_list_item'
+	| 'numbered_list_item'
+	| 'to_do'
+	| 'image'
+	| 'file'
+	| 'code'
+	| 'video'
+	| 'child_page'
+	| 'column_list';
+
 type BlockProperties = {
 	id: string;
-	type: string;
+	type: BlockTypes;
 	created_time: string;
 	created_by: PersonUserObjectResponse;
 	last_edited_time: string;
@@ -76,7 +98,7 @@ type BlockProperties = {
 
 type BlockValues = {
 	[ty: string]: {
-		type?: string;
+		type?: BlockTypes;
 
 		rich_text?: TextRichTextItemResponse[];
 		color?: string;

@@ -21,7 +21,7 @@
 	<svelte:element
 		this={text.href ? 'a' : 'span'}
 		class={text.annotations.code ? 'bg-primary -my-1 bg-opacity-5 p-1' : ''}
-		class:font-medium={text.annotations.bold}
+		class:font-medium={text.annotations.bold && !block.type.includes('heading')}
 		class:italic={text.annotations.italic}
 		class:underline={text.annotations.underline}
 		style:color={text.annotations.color === 'default'
@@ -29,6 +29,9 @@
 				? 'crimson'
 				: ''
 			: text.annotations.color}
+		style:background-color={text.annotations.color.endsWith('_background')
+			? text.annotations.color.replace('_background', '')
+			: ''}
 		href={text.href
 			? constructPath(
 					prefix,

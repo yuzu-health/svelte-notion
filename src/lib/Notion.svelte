@@ -12,7 +12,7 @@
 
 	$: className = typeof clazz === 'function' ? clazz : (_b: BlockType) => clazz as string;
 
-	$: props = { class: blockClass, pathname, prefix, highlightClass, blocks };
+	$: props = { blockClass, pathname, prefix, highlightClass, blocks };
 </script>
 
 {#each blocks || [] as block, i (block.id)}

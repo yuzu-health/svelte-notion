@@ -13,7 +13,7 @@
 	this={block.type === 'heading_1' ? 'h1' : block.type === 'heading_2' ? 'h2' : 'h3'}
 	id={block.id}
 	class={twMerge(
-		'mb-2 mt-8 font-semibold',
+		'mb-2 mt-4 font-semibold',
 		block.type === 'heading_1' ? 'text-2xl' : block.type === 'heading_2' ? 'text-xl' : 'text-lg',
 		clazz
 	)}

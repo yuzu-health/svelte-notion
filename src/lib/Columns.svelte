@@ -7,7 +7,7 @@
 	export let block: Block;
 </script>
 
-<div id={block.id} class={twMerge('mb-4 grid grid-flow-col gap-2', clazz)}>
+<div id={block.id} class={twMerge('mb-2 grid grid-flow-col gap-2', clazz)}>
 	{#each block.children || [] as column (column.id)}
 		<div>
 			<slot {column} />

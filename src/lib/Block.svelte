@@ -21,10 +21,9 @@
 	export let pathname = '/';
 	export let prefix = '';
 	export let highlightClass = '';
-	let className: string | ((block: Block) => string) = '';
-	export { className as class };
+	export let blockClass: string | ((block: Block) => string) = '';
 
-	$: clazz = typeof className === 'function' ? className(block) : className;
+	$: clazz = typeof blockClass === 'function' ? blockClass(block) : blockClass;
 
 	$: props = { class: clazz, block, prefix, highlightClass };
 </script>
@@ -53,7 +52,7 @@
 	<a {...props} href="{pathname}{block.id}">{block.child_page.title}</a>
 {:else if block.type === 'column_list'}
 	<Columns {...props} let:column>
-		<Notion blocks={column.children} {pathname} {prefix} {highlightClass} />
+		<Notion blocks={column.children} {pathname} {prefix} {highlightClass} {blockClass} />
 	</Columns>
 {/if}
 
@@ -65,6 +64,6 @@
 
 {#if !['toggle', 'column_list'].includes(block.type) && !block[block.type].is_toggleable && block.children}
 	<div class={twMerge('pl-8', clazz)}>
-		<Notion blocks={block.children} {pathname} {prefix} {highlightClass} />
+		<Notion blocks={block.children} {pathname} {prefix} {highlightClass} {blockClass} />
 	</div>
 {/if}
