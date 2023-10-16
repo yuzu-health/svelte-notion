@@ -23,7 +23,7 @@
 		class={text.annotations.code ? 'bg-primary -my-1 bg-opacity-5 p-1' : ''}
 		class:font-medium={text.annotations.bold && !block.type.includes('heading')}
 		class:italic={text.annotations.italic}
-		class:underline={text.annotations.underline}
+		class:underline={text.annotations.underline || text.href}
 		style:color={text.annotations.color === 'default'
 			? text.annotations.code
 				? 'crimson'

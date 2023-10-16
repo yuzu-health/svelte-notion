@@ -24,17 +24,32 @@
 	export let blockClass: string | ((block: Block) => string) = '';
 
 	$: clazz = typeof blockClass === 'function' ? blockClass(block) : blockClass;
+	$: headerToggleClass =
+		typeof blockClass === 'function'
+			? blockClass({ ...block, type: 'toggle' } as Block)
+			: blockClass;
 
 	$: props = { class: clazz, block, prefix, highlightClass };
+	$: childrenProps = { blockClass, blocks: block.children, highlightClass, pathname, prefix };
 </script>
 
-{#if block?.type === 'table_of_contents'}
+{#if block.type === 'toggle'}
+	<details class={clazz}>
+		<summary class="cursor-pointer"><Paragraph {...props} /></summary>
+		<div class="pl-4"><Notion {...childrenProps} /></div>
+	</details>
+{:else if block[block.type].is_toggleable}
+	<details class={headerToggleClass}>
+		<summary class="cursor-pointer"><Heading {...props} /></summary>
+		<div class="pl-4"><Notion {...childrenProps} /></div>
+	</details>
+{:else if block?.type === 'table_of_contents'}
 	<TableContents {...props} {blocks} />
 {:else if block.type === 'divider'}
 	<hr class={twMerge('my-2', clazz)} />
 {:else if ['heading_1', 'heading_2', 'heading_3'].includes(block.type)}
 	<Heading {...props} />
-{:else if ['callout', 'paragraph', 'quote', 'link_to_page', 'toggle'].includes(block.type)}
+{:else if ['callout', 'paragraph', 'quote', 'link_to_page'].includes(block.type)}
 	<Paragraph {...props} />
 {:else if ['bulleted_list_item', 'numbered_list_item'].includes(block.type)}
 	<List {...props} {blocks} />
@@ -52,18 +67,12 @@
 	<a {...props} href="{pathname}{block.id}">{block.child_page.title}</a>
 {:else if block.type === 'column_list'}
 	<Columns {...props} let:column>
-		<Notion blocks={column.children} {pathname} {prefix} {highlightClass} {blockClass} />
+		<Notion {...childrenProps} blocks={column.children} />
 	</Columns>
 {/if}
 
 {#if block[block.type].caption}
 	<div class="text-primary mt-2 text-xs text-opacity-50">
 		<Text {block} {prefix} rich_text={block[block.type].caption} />
-	</div>
-{/if}
-
-{#if !['toggle', 'column_list'].includes(block.type) && !block[block.type].is_toggleable && block.children}
-	<div class={twMerge('pl-8', clazz)}>
-		<Notion blocks={block.children} {pathname} {prefix} {highlightClass} {blockClass} />
 	</div>
 {/if}

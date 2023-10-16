@@ -1,48 +1,29 @@
 <script lang="ts">
-	import Block from './Block.svelte';
-	import type { Block as BlockType } from './types.js';
+	import type { SvelteComponent } from 'svelte';
+	import BlockComp from './Block.svelte';
+	import type { Block } from './types.js';
 
-	export let clazz: string | ((block: BlockType) => string) = '';
-	export { clazz as class };
-	export let blockClass: string | ((block: BlockType) => string) = '';
-	export let blocks: BlockType[] = [];
+	export let blockClass: string | ((block: Block) => string) = '';
+	export let blocks: Block[] = [];
 	export let highlightClass = '';
 	export let pathname = '/';
 	export let prefix = '';
-
-	$: className = typeof clazz === 'function' ? clazz : (_b: BlockType) => clazz as string;
+	export let BlockWrapper: typeof SvelteComponent<{ block: Block }> | undefined = undefined;
 
 	$: props = { blockClass, pathname, prefix, highlightClass, blocks };
 </script>
 
-{#each blocks || [] as block, i (block.id)}
-	{#if !block[block.type].is_toggleable && block.type !== 'toggle'}
-		<div class="svelte-notion {className(block)}">
-			<Block {...props} {block} />
-		</div>
+{#each blocks || [] as block (block.id)}
+	{#if BlockWrapper}
+		<svelte:component this={BlockWrapper} {block}>
+			<BlockComp {...props} {block} />
+		</svelte:component>
 	{:else}
-		<details class={className(block)}>
-			<summary class="cursor-pointer svelte-notion">
-				<Block {...props} {block} />
-			</summary>
-
-			<svelte:self
-				class={clazz}
-				{blockClass}
-				blocks={block.children}
-				{highlightClass}
-				{pathname}
-				{prefix}
-			/>
-		</details>
+		<BlockComp {...props} {block} />
 	{/if}
 {/each}
 
 <style lang="postcss">
 	@tailwind components;
 	@tailwind utilities;
-
-	.svelte-notion {
-		@apply whitespace-pre-line leading-relaxed;
-	}
 </style>
