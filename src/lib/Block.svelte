@@ -37,7 +37,7 @@
 {:else if ['callout', 'paragraph', 'quote', 'link_to_page', 'toggle'].includes(block.type)}
 	<Paragraph {...props} />
 {:else if ['bulleted_list_item', 'numbered_list_item'].includes(block.type)}
-	<List {...props} />
+	<List {...props} {blocks} />
 {:else if block.type === 'to_do'}
 	<ToDo {...props} />
 {:else if block.type === 'image'}

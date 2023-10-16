@@ -7,24 +7,18 @@
 	let clazz = '';
 	export { clazz as class };
 	export let prefix = '';
+	export let blocks: Block[];
+
+	$: blockIndex = blocks.findIndex((b) => b.id === block.id);
+	$: itemNum = blocks.slice(0, blockIndex).findLastIndex((b) => b.type !== block.type);
 </script>
 
-<div
-	id={block.id}
-	class={twMerge('relative my-1.5 gap-2 pl-4', clazz)}
-	class:count={block.type === 'numbered_list_item'}
->
+<div id={block.id} class={twMerge('relative my-1.5 gap-2 pl-4', clazz)}>
 	{#if block.type === 'bulleted_list_item'}
 		<span class="absolute left-0">•</span>
 	{:else}
-		<span class="counter absolute left-0">.</span>
+		<span class="absolute -left-1">{blockIndex - itemNum}.</span>
 	{/if}
 
 	<Text {block} {prefix} />
 </div>
-
-<style>
-	.counter::before {
-		content: counter(my-counter);
-	}
-</style>

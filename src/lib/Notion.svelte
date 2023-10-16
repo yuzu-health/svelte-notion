@@ -17,11 +17,7 @@
 
 {#each blocks || [] as block, i (block.id)}
 	{#if !block[block.type].is_toggleable && block.type !== 'toggle'}
-		<div
-			class="svelte-notion {className(block)}"
-			class:count={block.type === 'numbered_list_item'}
-			class:reset-count={blocks?.[i - 1]?.type !== block.type}
-		>
+		<div class="svelte-notion {className(block)}">
 			<Block {...props} {block} />
 		</div>
 	{:else}
@@ -48,13 +44,5 @@
 
 	.svelte-notion {
 		@apply whitespace-pre-line leading-relaxed;
-	}
-
-	.reset-count {
-		counter-reset: my-counter;
-	}
-
-	.count {
-		counter-increment: my-counter;
 	}
 </style>
