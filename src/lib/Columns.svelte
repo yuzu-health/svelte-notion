@@ -10,7 +10,7 @@
 <div
 	id={block.id}
 	class={twMerge(
-		'mb-2 grid grid-flow-row gap-4',
+		'mb-2 grid grid-flow-row gap-2 md:gap-4',
 		block.children.length === 5
 			? 'grid-cols-5'
 			: block.children.length === 4

@@ -18,7 +18,7 @@
 	id={block.id}
 	style:tab-size="2"
 	class={twMerge(
-		'bg-gray-50 mb-1 block overflow-scroll whitespace-pre p-4 text-sm w-0 min-w-full',
+		'bg-gray-50 mb-2 block overflow-scroll whitespace-pre p-4 md:p-6 text-sm w-0 min-w-full',
 		clazz
 	)}
 >

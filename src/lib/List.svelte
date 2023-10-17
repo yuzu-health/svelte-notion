@@ -13,7 +13,14 @@
 	$: itemNum = blocks.slice(0, blockIndex).findLastIndex((b) => b.type !== block.type);
 </script>
 
-<div id={block.id} class={twMerge('relative my-1.5 gap-2 pl-4', clazz)}>
+<div
+	id={block.id}
+	class={twMerge(
+		'relative mb-1 gap-2 pl-4',
+		blocks[blockIndex + 1]?.type !== block.type ? 'mb-3' : '',
+		clazz
+	)}
+>
 	{#if block.type === 'bulleted_list_item'}
 		<span class="absolute left-0">•</span>
 	{:else}

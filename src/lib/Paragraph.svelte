@@ -16,9 +16,9 @@
 	id={block.id}
 	class:inline-block={toggleable}
 	class={twMerge(
-		'break-word my-1',
+		'break-word mb-2',
 		block.type === 'quote' ? 'border-primary border-l-4 pl-4' : '',
-		block.type === 'callout' ? twMerge(`bg-gray-50 mb-1 p-4`, highlightClass) : '',
+		block.type === 'callout' ? twMerge(`bg-gray-50 p-4`, highlightClass) : '',
 		clazz
 	)}
 >

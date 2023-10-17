@@ -72,7 +72,7 @@
 {/if}
 
 {#if block[block.type].caption}
-	<div class="text-primary mt-2 text-xs text-opacity-50">
+	<div class="text-primary mb-2 text-xs text-opacity-50">
 		<Text {block} {prefix} rich_text={block[block.type].caption} />
 	</div>
 {/if}

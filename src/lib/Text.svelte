@@ -20,7 +20,7 @@
 {#each texts as text, i (block.id + '-' + i)}
 	<svelte:element
 		this={text.href ? 'a' : 'span'}
-		class={text.annotations.code ? 'bg-primary -my-1 bg-opacity-5 p-1' : ''}
+		class={text.annotations.code ? 'bg-primary bg-opacity-5 px-1' : ''}
 		class:font-medium={text.annotations.bold && !block.type.includes('heading')}
 		class:italic={text.annotations.italic}
 		class:underline={text.annotations.underline || text.href}
