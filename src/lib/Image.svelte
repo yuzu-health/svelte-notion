@@ -9,6 +9,6 @@
 
 <img
 	id={block.id}
-	class={twMerge('h-auto w-full', clazz)}
+	class={twMerge('h-auto w-full mb-2', clazz)}
 	src={block.image?.external?.url || block.image?.file?.url}
 />

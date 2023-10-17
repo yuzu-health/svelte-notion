@@ -22,6 +22,7 @@
 	export let prefix = '';
 	export let highlightClass = '';
 	export let blockClass: string | ((block: Block) => string) = '';
+	export let level: number;
 
 	$: clazz = typeof blockClass === 'function' ? blockClass(block) : blockClass;
 	$: headerToggleClass =
@@ -66,8 +67,8 @@
 {:else if block.type === 'child_page'}
 	<a {...props} href="{pathname}{block.id}">{block.child_page.title}</a>
 {:else if block.type === 'column_list'}
-	<Columns {...props} let:column>
-		<Notion {...childrenProps} blocks={column.children} />
+	<Columns {...props} {level} let:column>
+		<Notion {...childrenProps} blocks={column.children} level={level + 1} />
 	</Columns>
 {/if}
 

@@ -5,6 +5,7 @@
 	let clazz = '';
 	export { clazz as class };
 	export let block: Block;
+	export let level: number;
 </script>
 
 <div
@@ -22,7 +23,7 @@
 			: block.children.length === 1
 			? 'grid-cols-1'
 			: 'grid-flow-column',
-		clazz
+		level === 0 ? clazz : ''
 	)}
 >
 	{#each block.children || [] as column (column.id)}

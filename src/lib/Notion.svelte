@@ -3,6 +3,7 @@
 	import BlockComp from './Block.svelte';
 	import type { Block } from './types.js';
 
+	export let level = 0;
 	export let blockClass: string | ((block: Block) => string) = '';
 	export let blocks: Block[] = [];
 	export let highlightClass = '';
@@ -10,7 +11,7 @@
 	export let prefix = '';
 	export let BlockWrapper: typeof SvelteComponent<{ block: Block }> | undefined = undefined;
 
-	$: props = { blockClass, pathname, prefix, highlightClass, blocks };
+	$: props = { blockClass, pathname, prefix, highlightClass, blocks, level };
 </script>
 
 {#each blocks || [] as block (block.id)}
