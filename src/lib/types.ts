@@ -80,7 +80,9 @@ type BlockTypes =
 	| 'code'
 	| 'video'
 	| 'child_page'
-	| 'column_list';
+	| 'column_list'
+	| 'table'
+	| 'table_row';
 
 type BlockProperties = {
 	id: string;

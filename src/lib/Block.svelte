@@ -79,6 +79,16 @@
 	<Columns {...props} {level} let:column>
 		<Notion {...childrenProps} blocks={column.children} level={level + 1} />
 	</Columns>
+{:else if block.type === 'table'}
+	<table class={twMerge('border-collapse border', clazz)}>
+		{#each block.children as { table_row }}
+			<tr>
+				{#each table_row.cells || [] as texts}
+					<td class="border p-2"><Text {block} {prefix} rich_text={texts} /></td>
+				{/each}
+			</tr>
+		{/each}
+	</table>
 {/if}
 
 {#if block[block.type].caption}
