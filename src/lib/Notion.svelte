@@ -1,4 +1,5 @@
 <script lang="ts">
+	import './app.css';
 	import type { SvelteComponent } from 'svelte';
 	import BlockComp from './Block.svelte';
 	import type { Block } from './types.js';
@@ -23,8 +24,3 @@
 		<BlockComp {...props} {block} />
 	{/if}
 {/each}
-
-<style lang="postcss">
-	@tailwind components;
-	@tailwind utilities;
-</style>
