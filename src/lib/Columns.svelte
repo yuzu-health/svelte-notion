@@ -23,7 +23,7 @@
 			: block.children.length === 1
 			? 'grid-cols-1'
 			: 'grid-flow-column',
-		level === 0 ? clazz : ''
+		clazz
 	)}
 >
 	{#each block.children || [] as column (column.id)}

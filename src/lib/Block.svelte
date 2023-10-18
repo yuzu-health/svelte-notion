@@ -2,6 +2,7 @@
 	import { twMerge } from 'tailwind-merge';
 
 	import Notion from './Notion.svelte';
+	// import Toggle from './Toggle.svelte';
 	import Text from './Text.svelte';
 	import Video from './Video.svelte';
 	import Code from './Code.svelte';
@@ -21,13 +22,13 @@
 	export let pathname = '/';
 	export let prefix = '';
 	export let highlightClass = '';
-	export let blockClass: string | ((block: Block) => string) = '';
+	export let blockClass: string | ((block: Block, level?: number) => string) = '';
 	export let level: number;
 
-	$: clazz = typeof blockClass === 'function' ? blockClass(block) : blockClass;
+	$: clazz = typeof blockClass === 'function' ? blockClass(block, level) : blockClass;
 	$: headerToggleClass =
 		typeof blockClass === 'function'
-			? blockClass({ ...block, type: 'toggle' } as Block)
+			? blockClass({ ...block, type: 'toggle' } as Block, level)
 			: blockClass;
 
 	$: props = { class: clazz, block, prefix, highlightClass };
@@ -35,11 +36,19 @@
 </script>
 
 {#if block.type === 'toggle'}
+	<!-- <Toggle class={clazz}>
+		<Paragraph slot="summary" {...props} />
+		<Notion {...childrenProps} />
+	</Toggle> -->
 	<details class={clazz}>
 		<summary class="cursor-pointer"><Paragraph {...props} /></summary>
 		<div class="pl-4"><Notion {...childrenProps} /></div>
 	</details>
 {:else if block[block.type].is_toggleable}
+	<!-- <Toggle class={headerToggleClass}>
+		<Heading slot="summary" {...props} />
+		<Notion {...childrenProps} />
+	</Toggle> -->
 	<details class={headerToggleClass}>
 		<summary class="cursor-pointer"><Heading {...props} /></summary>
 		<div class="pl-4"><Notion {...childrenProps} /></div>

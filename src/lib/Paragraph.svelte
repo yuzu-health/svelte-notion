@@ -14,7 +14,7 @@
 
 <p
 	id={block.id}
-	class:inline-block={toggleable}
+	class:inline={toggleable}
 	class={twMerge(
 		'break-word mb-2',
 		block.type === 'quote' ? 'border-primary border-l-4 pl-4' : '',

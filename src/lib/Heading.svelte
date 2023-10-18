@@ -17,7 +17,7 @@
 		block.type === 'heading_1' ? 'text-2xl' : block.type === 'heading_2' ? 'text-xl' : 'text-lg',
 		clazz
 	)}
-	class:inline-block={block[block.type].is_toggleable}
+	class:inline={block[block.type].is_toggleable}
 >
 	<Text {block} {prefix} />
 </svelte:element>
