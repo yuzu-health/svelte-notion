@@ -2,7 +2,7 @@
 	import { twMerge } from 'tailwind-merge';
 
 	import Notion from './Notion.svelte';
-	// import Toggle from './Toggle.svelte';
+	import Toggle from './Toggle.svelte';
 	import Text from './Text.svelte';
 	import Video from './Video.svelte';
 	import Code from './Code.svelte';
@@ -36,23 +36,23 @@
 </script>
 
 {#if block.type === 'toggle'}
-	<!-- <Toggle class={clazz}>
+	<Toggle class={clazz}>
 		<Paragraph slot="summary" {...props} />
 		<Notion {...childrenProps} />
-	</Toggle> -->
-	<details class={clazz}>
+	</Toggle>
+	<!-- <details class={clazz}>
 		<summary class="cursor-pointer"><Paragraph {...props} /></summary>
 		<div class="pl-4"><Notion {...childrenProps} /></div>
-	</details>
+	</details> -->
 {:else if block[block.type].is_toggleable}
-	<!-- <Toggle class={headerToggleClass}>
+	<Toggle class={headerToggleClass}>
 		<Heading slot="summary" {...props} />
 		<Notion {...childrenProps} />
-	</Toggle> -->
-	<details class={headerToggleClass}>
+	</Toggle>
+	<!-- <details class={headerToggleClass}>
 		<summary class="cursor-pointer"><Heading {...props} /></summary>
 		<div class="pl-4"><Notion {...childrenProps} /></div>
-	</details>
+	</details> -->
 {:else if block?.type === 'table_of_contents'}
 	<TableContents {...props} {blocks} />
 {:else if block.type === 'divider'}
