@@ -15,15 +15,15 @@
 	import Paragraph from './Paragraph.svelte';
 	import File from './File.svelte';
 
-	import type { Block } from './types.js';
+	import type { Block, TextRichTextItemResponse } from './types.js';
 
 	export let block: Block;
 	export let blocks: Block[] = [];
 	export let pathname = '/';
 	export let prefix = '';
-	export let highlightClass = '';
 	export let blockClass: string | ((block: Block, level?: number) => string) = '';
 	export let level: number;
+	export let textClass: string | ((text: TextRichTextItemResponse, block?: Block) => string) = '';
 
 	$: clazz = typeof blockClass === 'function' ? blockClass(block, level) : blockClass;
 	$: headerToggleClass =
@@ -31,8 +31,8 @@
 			? blockClass({ ...block, type: 'toggle' } as Block, level)
 			: blockClass;
 
-	$: props = { class: clazz, block, prefix, highlightClass };
-	$: childrenProps = { blockClass, blocks: block.children, highlightClass, pathname, prefix };
+	$: props = { class: clazz, block, prefix, textClass };
+	$: childrenProps = { blockClass, blocks: block.children, pathname, prefix, textClass };
 </script>
 
 {#if block.type === 'toggle'}
@@ -70,7 +70,7 @@
 {:else if block.type === 'file'}
 	<File {...props} />
 {:else if block.type === 'code'}
-	<Code {...props} class={twMerge(highlightClass, clazz)} />
+	<Code {...props} class={clazz} />
 {:else if block.type === 'video'}
 	<Video {...props} />
 {:else if block.type === 'child_page'}
@@ -93,6 +93,6 @@
 
 {#if block[block.type].caption}
 	<div class="text-primary mb-2 text-xs text-opacity-50">
-		<Text {block} {prefix} rich_text={block[block.type].caption} />
+		<Text {block} {prefix} {textClass} rich_text={block[block.type].caption} />
 	</div>
 {/if}

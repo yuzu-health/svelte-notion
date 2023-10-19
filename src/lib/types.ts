@@ -7,6 +7,8 @@ import type {
 
 export type { QueryDatabaseParameters } from '@notionhq/client/build/src/api-endpoints.js';
 
+export type { TextRichTextItemResponse } from '@notionhq/client/build/src/api-endpoints.js';
+
 type SelectPropertyResponse = { id: string; name: string; color: string };
 type DateResponse = {
 	start: string;

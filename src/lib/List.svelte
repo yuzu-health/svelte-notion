@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { twMerge } from 'tailwind-merge';
-	import type { Block } from './types.js';
+	import type { Block, TextRichTextItemResponse } from './types.js';
 	import Text from './Text.svelte';
 
 	export let block: Block;
@@ -8,6 +8,7 @@
 	export { clazz as class };
 	export let prefix = '';
 	export let blocks: Block[];
+	export let textClass: string | ((text: TextRichTextItemResponse, block?: Block) => string) = '';
 
 	$: blockIndex = blocks.findIndex((b) => b.id === block.id);
 	$: itemNum = blocks.slice(0, blockIndex).findLastIndex((b) => b.type !== block.type);
@@ -27,5 +28,5 @@
 		<span class="absolute -left-1">{blockIndex - itemNum}.</span>
 	{/if}
 
-	<Text {block} {prefix} />
+	<Text {block} {prefix} {textClass} />
 </div>

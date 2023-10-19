@@ -2,17 +2,17 @@
 	import './app.css';
 	import type { SvelteComponent } from 'svelte';
 	import BlockComp from './Block.svelte';
-	import type { Block } from './types.js';
+	import type { Block, TextRichTextItemResponse } from './types.js';
 
 	export let level = 0;
 	export let blockClass: string | ((block: Block, level?: number) => string) = '';
 	export let blocks: Block[] = [];
-	export let highlightClass = '';
 	export let pathname = '/';
 	export let prefix = '';
 	export let BlockWrapper: typeof SvelteComponent<{ block: Block }> | undefined = undefined;
+	export let textClass: string | ((text: TextRichTextItemResponse, block?: Block) => string) = '';
 
-	$: props = { blockClass, pathname, prefix, highlightClass, blocks, level };
+	$: props = { blockClass, pathname, prefix, blocks, level, textClass };
 </script>
 
 {#each blocks || [] as block (block.id)}
