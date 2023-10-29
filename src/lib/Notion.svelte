@@ -11,9 +11,7 @@
 	export let prefix = '';
 	export let BlockWrapper: typeof SvelteComponent<{ block: Block }> | undefined = undefined;
 	export let textClass: string | ((text: TextRichTextItemResponse, block?: Block) => string) = '';
-	export let columnClass:
-		| undefined
-		| ((column: Block, colNumber: Number, totalCols: Number) => string);
+	export let columnClass: undefined | ((colNumber: Number, columns: Block[]) => string);
 
 	$: props = { blockClass, pathname, prefix, blocks, level, textClass, columnClass };
 </script>

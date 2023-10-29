@@ -24,9 +24,7 @@
 	export let blockClass: string | ((block: Block, level?: number) => string) = '';
 	export let level: number;
 	export let textClass: string | ((text: TextRichTextItemResponse, block?: Block) => string) = '';
-	export let columnClass:
-		| undefined
-		| ((column: Block, colNumber: Number, totalCols: Number) => string);
+	export let columnClass: undefined | ((colNumber: Number, columns: Block[]) => string);
 
 	$: clazz = typeof blockClass === 'function' ? blockClass(block, level) : blockClass;
 	$: headerToggleClass =
