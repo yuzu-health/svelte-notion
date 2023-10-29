@@ -26,7 +26,7 @@
 
 <div class={clazz}>
 	<button
-		class="cursor-pointer items-baseline flex gap-2 text-left"
+		class="cursor-pointer items-baseline flex gap-2 text-left w-full"
 		type="button"
 		on:click|preventDefault={() => (show = !show)}
 	>

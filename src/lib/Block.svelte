@@ -24,6 +24,9 @@
 	export let blockClass: string | ((block: Block, level?: number) => string) = '';
 	export let level: number;
 	export let textClass: string | ((text: TextRichTextItemResponse, block?: Block) => string) = '';
+	export let columnClass:
+		| undefined
+		| ((column: Block, colNumber: Number, totalCols: Number) => string);
 
 	$: clazz = typeof blockClass === 'function' ? blockClass(block, level) : blockClass;
 	$: headerToggleClass =
@@ -32,7 +35,14 @@
 			: blockClass;
 
 	$: props = { class: clazz, block, prefix, textClass };
-	$: childrenProps = { blockClass, blocks: block.children, pathname, prefix, textClass };
+	$: childrenProps = {
+		blockClass,
+		blocks: block.children,
+		pathname,
+		prefix,
+		textClass,
+		columnClass
+	};
 </script>
 
 {#if block.type === 'toggle'}
@@ -76,7 +86,7 @@
 {:else if block.type === 'child_page'}
 	<a {...props} href="{pathname}{block.id}">{block.child_page.title}</a>
 {:else if block.type === 'column_list'}
-	<Columns {...props} {level} let:column>
+	<Columns {...props} {columnClass} let:column>
 		<Notion {...childrenProps} blocks={column.children} level={level + 1} />
 	</Columns>
 {:else if block.type === 'table'}

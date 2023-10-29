@@ -1,6 +1,6 @@
 {
 	"name": "@yuzu-health/svelte-notion",
-	"version": "0.0.88",
+	"version": "0.0.90",
 	"scripts": {
 		"dev": "vite dev",
 		"rollup": "rollup -c",

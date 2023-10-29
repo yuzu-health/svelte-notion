@@ -5,7 +5,9 @@
 	let clazz = '';
 	export { clazz as class };
 	export let block: Block;
-	export let level: number;
+	export let columnClass:
+		| undefined
+		| ((column: Block, colNumber: Number, totalCols: Number) => string);
 </script>
 
 <div
@@ -26,8 +28,8 @@
 		clazz
 	)}
 >
-	{#each block.children || [] as column (column.id)}
-		<div>
+	{#each block.children || [] as column, i (column.id)}
+		<div class={columnClass && columnClass(column, i, block.children.length)}>
 			<slot {column} />
 		</div>
 	{/each}
