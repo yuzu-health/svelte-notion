@@ -26,7 +26,7 @@
 	<svelte:element
 		this={text.href ? 'a' : 'span'}
 		class={twMerge(
-			text.annotations.code ? 'bg-primary bg-opacity-5 px-1' : '',
+			text.annotations.code ? 'bg-foreground bg-opacity-5 px-1' : '',
 			text.annotations.bold && !block.type.includes('heading') ? 'font-semibold' : '',
 			text.annotations.italic ? 'italic' : '',
 			text.annotations.underline || text.href ? 'underline' : '',

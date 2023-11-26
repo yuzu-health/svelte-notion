@@ -17,7 +17,7 @@
 	class:inline={toggleable}
 	class={twMerge(
 		'break-word mb-2',
-		block.type === 'quote' ? 'border-primary border-l-4 pl-4' : '',
+		block.type === 'quote' ? 'border-foreground border-l-4 pl-4' : '',
 		block.type === 'callout' ? `bg-gray-50 p-4` : '',
 		clazz
 	)}

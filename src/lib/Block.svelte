@@ -46,7 +46,7 @@
 {#if block.type === 'toggle'}
 	<Toggle class={clazz}>
 		<Paragraph slot="summary" {...props} />
-		<Notion {...childrenProps} />
+		<Notion {...childrenProps} level={level + 1} />
 	</Toggle>
 	<!-- <details class={clazz}>
 		<summary class="cursor-pointer"><Paragraph {...props} /></summary>
@@ -55,7 +55,7 @@
 {:else if block[block.type].is_toggleable}
 	<Toggle class={headerToggleClass}>
 		<Heading slot="summary" {...props} />
-		<Notion {...childrenProps} />
+		<Notion {...childrenProps} level={level + 1} />
 	</Toggle>
 	<!-- <details class={headerToggleClass}>
 		<summary class="cursor-pointer"><Heading {...props} /></summary>
@@ -100,7 +100,7 @@
 {/if}
 
 {#if block[block.type].caption}
-	<div class="text-primary mb-2 text-xs text-opacity-50">
+	<div class="text-muted-foreground mb-2 text-xs">
 		<Text {block} {prefix} {textClass} rich_text={block[block.type].caption} />
 	</div>
 {/if}
