@@ -11,19 +11,19 @@ import type {
 export type * from './types.js';
 
 export class Client {
-	private notionClient: Notion.Client | undefined;
+	public Notion: Notion.Client;
 
 	constructor(notionKey: string) {
-		this.notionClient = new Notion.Client({ auth: notionKey });
+		this.Notion = new Notion.Client({ auth: notionKey });
 	}
 
 	public async fetchDatabase(q: QueryDatabaseParameters): Promise<Page[]> {
-		const { results } = await this.notionClient!.databases.query(q);
+		const { results } = await this.Notion.databases.query(q);
 		return results.filter((page) => page !== null) as Page[];
 	}
 
 	public async fetchProperty(page_id: string, property_id: string) {
-		const resp = await this.notionClient!.pages.properties.retrieve({
+		const resp = await this.Notion.pages.properties.retrieve({
 			page_id,
 			property_id
 		});
@@ -32,25 +32,30 @@ export class Client {
 		return null;
 	}
 
-	public async fetchBlocks(
-		q: string | ListBlockChildrenParameters,
-		transform?: (block: Block) => Promise<Block> | Block
-	) {
-		const resp = await this.notionClient!.blocks.children.list(
+	public async fetchBlocks({
+		q,
+		transform,
+		slugProperty = 'slug'
+	}: {
+		q: string | ListBlockChildrenParameters;
+		transform?: (block: Block) => Promise<Block> | Block;
+		slugProperty?: string;
+	}) {
+		const resp = await this.Notion.blocks.children.list(
 			typeof q === 'string' ? { block_id: q, page_size: 100 } : q
 		);
 
 		const blocks = resp.results as any as Block[];
 		for (let block of blocks) {
-			if (block.link_to_page) block = await this.linkToPage(block);
-			block = await this.mapLinksToSlugs(block);
+			if (block.link_to_page) block = await this.linkToPage(block, slugProperty);
+			block = await this.mapLinksToSlugs(block, slugProperty);
 			if (transform) block = await transform(block);
-			if (block.has_children) block.children = await this.fetchBlocks(block.id, transform);
+			if (block.has_children) block.children = await this.fetchBlocks({ q: block.id, transform });
 		}
 		return blocks;
 	}
 
-	private mapLinksToSlugs = async (block: Block) => {
+	private mapLinksToSlugs = async (block: Block, slugProperty = 'slug') => {
 		const links = (block?.[block.type]?.rich_text || [])
 			.map((b) => b?.href || '')
 			.filter((href) => href?.startsWith('/'));
@@ -58,10 +63,14 @@ export class Client {
 		block.links = Object.fromEntries(
 			await Promise.all(
 				links.map(async (link) => {
-					const property = await this.fetchProperty(link?.slice(1)?.split('?')?.[0] || '', 'slug');
-					return property && 'rich_text' in property
-						? [link, property?.rich_text?.plain_text]
-						: [link, ''];
+					const property = await this.fetchProperty(
+						link?.slice(1)?.split('?')?.[0] || '',
+						slugProperty
+					);
+
+					if (!property || !('rich_text' in property || 'title' in property)) return [link, ''];
+					else if ('rich_text' in property) return [link, property?.rich_text?.plain_text];
+					else return [link, property?.title?.plain_text || ''];
 				})
 			)
 		);
@@ -69,17 +78,20 @@ export class Client {
 		return block;
 	};
 
-	private linkToPage = async (block: Block) => {
+	private linkToPage = async (block: Block, slugProperty = 'slug') => {
 		const pageId = block.link_to_page.page_id;
 		if (!pageId) return block;
 
 		const title = (await this.fetchProperty(pageId, 'title')) as TitlePropertyItemObjectResponse;
-		const slug = (await this.fetchProperty(pageId, 'slug')) as RichTextPropertyItemObjectResponse;
+		const slug = (await this.fetchProperty(pageId, slugProperty)) as
+			| RichTextPropertyItemObjectResponse
+			| TitlePropertyItemObjectResponse;
 
 		if (title && slug) {
 			title.title.href = '/' + pageId;
 			block.link_to_page.rich_text = [title?.title as TextRichTextItemResponse];
-			block.links = { ['/' + pageId]: slug?.rich_text.plain_text };
+			// @ts-ignore
+			block.links = { ['/' + pageId]: slug?.rich_text?.plain_text || slug?.title?.plain_text };
 		}
 
 		return block;

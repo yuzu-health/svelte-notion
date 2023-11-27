@@ -24,7 +24,7 @@
 	export let blockClass: string | ((block: Block, level?: number) => string) = '';
 	export let level: number;
 	export let textClass: string | ((text: TextRichTextItemResponse, block?: Block) => string) = '';
-	export let columnClass: undefined | ((colNumber: Number, columns: Block[]) => string);
+	export let columnClass: undefined | ((colNumber: number, columns: Block[]) => string);
 
 	$: clazz = typeof blockClass === 'function' ? blockClass(block, level) : blockClass;
 	$: headerToggleClass =
@@ -89,13 +89,15 @@
 	</Columns>
 {:else if block.type === 'table'}
 	<table class={twMerge('border-collapse border', clazz)}>
-		{#each block.children as { table_row }}
-			<tr>
-				{#each table_row.cells || [] as texts}
-					<td class="border p-2"><Text {block} {prefix} rich_text={texts} /></td>
-				{/each}
-			</tr>
-		{/each}
+		<tbody>
+			{#each block.children as { table_row }}
+				<tr>
+					{#each table_row.cells || [] as texts}
+						<td class="border p-2"><Text {block} {prefix} rich_text={texts} /></td>
+					{/each}
+				</tr>
+			{/each}
+		</tbody>
 	</table>
 {/if}
 

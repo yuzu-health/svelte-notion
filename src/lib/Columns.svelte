@@ -5,7 +5,7 @@
 	let clazz = '';
 	export { clazz as class };
 	export let block: Block;
-	export let columnClass: undefined | ((colNumber: Number, columns: Block[]) => string);
+	export let columnClass: undefined | ((colNumber: number, columns: Block[]) => string);
 </script>
 
 <div

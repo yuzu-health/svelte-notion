@@ -84,7 +84,8 @@ type BlockTypes =
 	| 'child_page'
 	| 'column_list'
 	| 'table'
-	| 'table_row';
+	| 'table_row'
+	| 'child_database';
 
 type BlockProperties = {
 	id: string;

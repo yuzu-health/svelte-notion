@@ -1,10 +1,8 @@
 <script lang="ts">
+	import { onMount } from 'svelte';
 	import type { Block } from './types.js';
 	import { twMerge } from 'tailwind-merge';
-	import prism from 'prismjs';
-	import 'prismjs/components/prism-typescript';
-
-	const { highlight, languages } = prism;
+	import Prism from 'prismjs';
 
 	export let block: Block;
 	let clazz = '';
@@ -24,21 +22,14 @@
 >
 	{#each texts as text}
 		<div>
-			{#if languages[language]}
-				{@html highlight(text.text?.content, languages[language], language)}
+			{#if Prism.languages[language]}
+				{@html Prism.highlight(text.text?.content, Prism.languages[language], language)}
 			{:else}
 				{text.text?.content}
 			{/if}
 		</div>
 	{/each}
 </code>
-
-<svelte:head>
-	<link
-		href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.22.0/themes/prism.min.css"
-		rel="stylesheet"
-	/>
-</svelte:head>
 
 <style>
 	:global(.token.operator) {
