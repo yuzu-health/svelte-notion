@@ -101,7 +101,7 @@
 	</table>
 {/if}
 
-{#if block[block.type].caption}
+{#if !!block[block.type].caption?.length}
 	<div class="text-muted-foreground mb-2 text-xs">
 		<Text {block} {prefix} {textClass} rich_text={block[block.type].caption} />
 	</div>

@@ -14,10 +14,10 @@
 	$: itemNum = blocks.slice(0, blockIndex).findLastIndex((b) => b.type !== block.type);
 </script>
 
-<div
+<li
 	id={block.id}
 	class={twMerge(
-		'relative mb-1 gap-2 pl-4',
+		'list-none relative mb-1 gap-2 pl-4',
 		blocks[blockIndex + 1]?.type !== block.type ? 'mb-3' : '',
 		clazz
 	)}
@@ -29,4 +29,4 @@
 	{/if}
 
 	<Text {block} {prefix} {textClass} />
-</div>
+</li>
