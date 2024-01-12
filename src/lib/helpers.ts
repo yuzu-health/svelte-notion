@@ -23,13 +23,17 @@ export class Client {
 	}
 
 	public async fetchProperty(page_id: string, property_id: string) {
-		const resp = await this.Notion.pages.properties.retrieve({
-			page_id,
-			property_id
-		});
+		try {
+			const resp = await this.Notion.pages.properties.retrieve({
+				page_id,
+				property_id
+			});
 
-		if ('results' in resp && resp.results[0]) return resp.results[0];
-		return null;
+			if ('results' in resp && resp.results[0]) return resp.results[0];
+			return null;
+		} catch {
+			return null;
+		}
 	}
 
 	public async fetchBlocks({

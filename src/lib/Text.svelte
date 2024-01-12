@@ -51,7 +51,7 @@
 						: text?.href
 			  )
 			: ''}
-		target={text.href ? (block.links[text.href] ? '' : '_blank') : ''}
+		target={text.href ? (block.links[text.href] || text.href.startsWith('/') ? '' : '_blank') : ''}
 		>{text.text.content}</svelte:element
 	>
 {/each}

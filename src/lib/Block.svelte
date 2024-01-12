@@ -14,6 +14,7 @@
 	import Columns from './Columns.svelte';
 	import Paragraph from './Paragraph.svelte';
 	import File from './File.svelte';
+	import Callout from './Callout.svelte';
 
 	import type { Block, TextRichTextItemResponse } from './types.js';
 
@@ -67,7 +68,11 @@
 	<hr class={twMerge('my-2', clazz)} />
 {:else if ['heading_1', 'heading_2', 'heading_3'].includes(block.type)}
 	<Heading {...props} />
-{:else if ['callout', 'paragraph', 'quote', 'link_to_page'].includes(block.type)}
+{:else if ['callout', 'quote'].includes(block.type)}
+	<Callout {...props}>
+		<Notion {...childrenProps} blocks={block.children} level={level + 1} />
+	</Callout>
+{:else if ['paragraph', 'link_to_page'].includes(block.type)}
 	<Paragraph {...props} />
 {:else if ['bulleted_list_item', 'numbered_list_item'].includes(block.type)}
 	<List {...props} {blocks} />
