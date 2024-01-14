@@ -70,7 +70,7 @@
 	<Heading {...props} />
 {:else if ['callout', 'quote'].includes(block.type)}
 	<Callout {...props}>
-		<Notion {...childrenProps} blocks={block.children} level={level + 1} />
+		<Notion {...childrenProps} blocks={block.children} {level} />
 	</Callout>
 {:else if ['paragraph', 'link_to_page'].includes(block.type)}
 	<Paragraph {...props} />
