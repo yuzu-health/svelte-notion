@@ -99,6 +99,7 @@ type BlockProperties = {
 
 	links: { [key: string]: string };
 	children: Block[];
+	pages?: Page[];
 };
 
 type BlockValues = {
@@ -137,5 +138,7 @@ type BlockValues = {
 
 		children?: Block[];
 		is_toggleable?: boolean;
+
+		pages?: Page[];
 	};
 };

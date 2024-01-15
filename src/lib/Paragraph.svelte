@@ -12,20 +12,7 @@
 	$: toggleable = block[block.type].is_toggleable || block.type === 'toggle';
 </script>
 
-<p
-	id={block.id}
-	class:inline={toggleable}
-	class={twMerge(
-		'break-word mb-2',
-		block.type === 'quote' ? 'border-foreground border-l-4 pl-4' : '',
-		block.type === 'callout' ? `bg-gray-50 p-4` : '',
-		clazz
-	)}
->
-	{#if block[block.type]?.icon?.emoji}
-		<span class="pr-4">{block?.[block.type]?.icon?.emoji}</span>
-	{/if}
-
+<p id={block.id} class:inline={toggleable} class={twMerge('break-word mb-2', clazz)}>
 	{#if block[block.type]?.rich_text?.length === 0}
 		<br />
 	{:else}

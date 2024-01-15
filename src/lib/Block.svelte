@@ -1,4 +1,5 @@
 <script lang="ts">
+	import type { SvelteComponent } from 'svelte';
 	import { twMerge } from 'tailwind-merge';
 
 	import Notion from './Notion.svelte';
@@ -15,6 +16,7 @@
 	import Paragraph from './Paragraph.svelte';
 	import File from './File.svelte';
 	import Callout from './Callout.svelte';
+	import Quote from './Quote.svelte';
 
 	import type { Block, TextRichTextItemResponse } from './types.js';
 
@@ -26,6 +28,7 @@
 	export let level: number;
 	export let textClass: string | ((text: TextRichTextItemResponse, block?: Block) => string) = '';
 	export let columnClass: undefined | ((colNumber: number, columns: Block[]) => string);
+	export let BlockWrapper: typeof SvelteComponent<{ block: Block }> | undefined = undefined;
 
 	$: clazz = typeof blockClass === 'function' ? blockClass(block, level) : blockClass;
 	$: headerToggleClass =
@@ -40,7 +43,8 @@
 		pathname,
 		prefix,
 		textClass,
-		columnClass
+		columnClass,
+		BlockWrapper
 	};
 </script>
 
@@ -49,29 +53,27 @@
 		<Paragraph slot="summary" {...props} />
 		<Notion {...childrenProps} level={level + 1} />
 	</Toggle>
-	<!-- <details class={clazz}>
-		<summary class="cursor-pointer"><Paragraph {...props} /></summary>
-		<div class="pl-4"><Notion {...childrenProps} /></div>
-	</details> -->
 {:else if block[block.type].is_toggleable}
 	<Toggle class={headerToggleClass}>
 		<Heading slot="summary" {...props} />
 		<Notion {...childrenProps} level={level + 1} />
 	</Toggle>
-	<!-- <details class={headerToggleClass}>
-		<summary class="cursor-pointer"><Heading {...props} /></summary>
-		<div class="pl-4"><Notion {...childrenProps} /></div>
-	</details> -->
 {:else if block?.type === 'table_of_contents'}
 	<TableContents {...props} {blocks} />
 {:else if block.type === 'divider'}
 	<hr class={twMerge('my-2', clazz)} />
 {:else if ['heading_1', 'heading_2', 'heading_3'].includes(block.type)}
 	<Heading {...props} />
-{:else if ['callout', 'quote'].includes(block.type)}
+{:else if 'callout' === block.type}
 	<Callout {...props}>
+		<Paragraph {...props} class="" />
 		<Notion {...childrenProps} blocks={block.children} {level} />
 	</Callout>
+{:else if 'quote' === block.type}
+	<Quote {...props}>
+		<Paragraph {...props} class="" />
+		<Notion {...childrenProps} blocks={block.children} {level} />
+	</Quote>
 {:else if ['paragraph', 'link_to_page'].includes(block.type)}
 	<Paragraph {...props} />
 {:else if ['bulleted_list_item', 'numbered_list_item'].includes(block.type)}
