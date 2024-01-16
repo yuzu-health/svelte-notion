@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
 	import type { Block } from './types.js';
 	import { twMerge } from 'tailwind-merge';
 	import Prism from 'prismjs';

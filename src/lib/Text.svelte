@@ -15,6 +15,28 @@
 			.reduce((acc, part) => acc + part + '/', '/');
 	};
 
+	const colors = {
+		default: '',
+		gray: 'text-gray-800',
+		brown: 'text-amber-900',
+		orange: 'text-orange-600',
+		yellow: 'text-yellow-500',
+		green: 'text-green-800',
+		blue: 'text-blue-800',
+		purple: 'text-purple-800',
+		pink: 'text-pink-800',
+		red: 'text-red-800',
+		gray_background: 'bg-gray-800',
+		brown_background: 'bg-amber-900',
+		orange_background: 'bg-orange-600',
+		yellow_background: 'bg-yellow-500',
+		green_background: 'bg-green-800',
+		blue_background: 'bg-blue-800',
+		purple_background: 'bg-purple-800',
+		pink_background: 'bg-pink-800',
+		red_background: 'bg-red-800'
+	};
+
 	$: texts = rich_text || block[block.type].rich_text || [];
 	$: clazz =
 		typeof textClass === 'function'
@@ -31,16 +53,9 @@
 			text.annotations.italic ? 'italic' : '',
 			text.annotations.underline || text.href ? 'underline' : '',
 			text.annotations.strikethrough ? 'line-through' : '',
+			colors[text.annotations.color],
 			clazz(text, block)
 		)}
-		style:color={text.annotations.color === 'default'
-			? text.annotations.code
-				? 'crimson'
-				: ''
-			: text.annotations.color}
-		style:background-color={text.annotations.color.endsWith('_background')
-			? text.annotations.color.replace('_background', '')
-			: ''}
 		href={text.href
 			? constructPath(
 					prefix,
